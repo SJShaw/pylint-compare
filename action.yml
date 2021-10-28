@@ -57,4 +57,5 @@ runs:
       with:
         message: |
           ${{ steps.report.outputs.comment }}
+
           using merge commit ${{ github.sha }} from pull request HEAD ${{ github.event.pull_request.head.sha }}
