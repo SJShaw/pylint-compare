@@ -20,6 +20,7 @@ runs:
     - name: Install pylint
       run: |
         [[ "${{ inputs.install_pylint }}" = true ]] && python -m pip install --upgrade pip && pip install pylint
+      shell: bash
     # report the change in issues
     # get counts of issues
     - name: PR issues
@@ -27,6 +28,7 @@ runs:
       run: |
         COUNTS=$(python pylint_counts.py dummy)
         echo "::set-output name=counts::$COUNTS"
+      shell: bash
     # checkout the default branch
     - uses: actions/checkout@v2
       with:
@@ -36,6 +38,7 @@ runs:
       run: |
         COUNTS=$(python pylint_counts.py dummy)
         echo "::set-output name=counts::$COUNTS"
+      shell: bash
     # build the report
     - name: Build report
       id: report
@@ -47,6 +50,7 @@ runs:
         echo report: $REPORT
         REPORT="${REPORT//$'\n'/'%0A'}"
         echo "::set-output name=comment::$REPORT"
+      shell: bash
     # make the comment
     - name: Comment
       uses: marocchino/sticky-pull-request-comment@v2
