@@ -26,7 +26,7 @@ runs:
     - name: PR issues
       id: pr
       run: |
-        COUNTS=$(python pylint_counts.py ${{ inputs.targets }})
+        COUNTS=$(python ${{ github.action_path }}/pylint_counts.py ${{ inputs.targets }})
         echo "::set-output name=counts::$COUNTS"
       shell: bash
     # checkout the default branch
@@ -36,7 +36,7 @@ runs:
     - name: default branch issues
       id: default
       run: |
-        COUNTS=$(python pylint_counts.py ${{ inputs.targets }})
+        COUNTS=$(python ${{ github.action_path }}/pylint_counts.py ${{ inputs.targets }})
         echo "::set-output name=counts::$COUNTS"
       shell: bash
     # build the report
@@ -45,7 +45,7 @@ runs:
       run: |
         echo '${{ steps.pr.outputs.counts }}' > now.json
         echo '${{ steps.default.outputs.counts }}' > then.json
-        python build_report.py then.json now.json > report.md
+        python ${{ github.action_path }}/build_report.py then.json now.json > report.md
         REPORT=$(cat report.md)
         echo report: $REPORT
         REPORT="${REPORT//$'\n'/'%0A'}"
