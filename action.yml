@@ -19,7 +19,7 @@ runs:
     # but install pylint if required (as of writing, composite actions don't support 'if')
     - name: Install pylint
       run: |
-        [[ "${{ inputs.install_pylint }}" = true ]] && python -m pip install --upgrade pip && pip install pylint
+        [[ "${{ inputs.install_pylint }}" = true ]] && python -m pip install --upgrade pip && pip install pylint || true
       shell: bash
     # report the change in issues
     # get counts of issues
