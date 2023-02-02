@@ -46,10 +46,10 @@ runs:
         echo '${{ steps.pr.outputs.counts }}' > now.json
         echo '${{ steps.default.outputs.counts }}' > then.json
         python ${{ github.action_path }}/build_report.py then.json now.json > report.md
-        REPORT=$(cat report.md)
-        echo report: $REPORT
-        REPORT="${REPORT//$'\n'/'%0A'}"
-        echo "comment=$REPORT" >> $GITHUB_OUTPUT
+        cat report.md
+        echo 'comment<<EOF' >> $GITHUB_OUTPUT
+        cat report.md >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
       shell: bash
     # make the comment
     - name: Comment
