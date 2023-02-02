@@ -27,7 +27,7 @@ runs:
       id: pr
       run: |
         COUNTS=$(python ${{ github.action_path }}/pylint_counts.py ${{ inputs.targets }})
-        echo "::set-output name=counts::$COUNTS"
+        echo "counts=$COUNTS" >> $GITHUB_OUTPUT
       shell: bash
     # checkout the default branch
     - uses: actions/checkout@v3
@@ -37,7 +37,7 @@ runs:
       id: default
       run: |
         COUNTS=$(python ${{ github.action_path }}/pylint_counts.py ${{ inputs.targets }})
-        echo "::set-output name=counts::$COUNTS"
+        echo "counts=$COUNTS" >> $GITHUB_OUTPUT
       shell: bash
     # build the report
     - name: Build report
@@ -49,7 +49,7 @@ runs:
         REPORT=$(cat report.md)
         echo report: $REPORT
         REPORT="${REPORT//$'\n'/'%0A'}"
-        echo "::set-output name=comment::$REPORT"
+        echo "comment=$REPORT" >> $GITHUB_OUTPUT
       shell: bash
     # make the comment
     - name: Comment
