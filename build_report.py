@@ -13,9 +13,15 @@ for key, val in default.items():
     if diff:
         result[key] = diff
 
-print("### Issue count changes")
+print("### Pylint count changes")
 if result:
-    for key, val in sorted(result.items()):
-        print("- **%s**: %s" % (key, val))
+    print("|Category|Count|Proportional|")
+    print("|:---|---:|---:|")
+    for key, diff in sorted(result.items()):
+        old = default.get(key, 0)
+        change = "was 0"
+        if old:
+            change = "{:+.1f}%".format((diff / old) * 100)
+        print("|**{}**|{:+}|{}|".format(key, diff, change))
 else:
     print("None")
