@@ -10,6 +10,11 @@ inputs:
     required: false
     default: true
 
+outputs:
+  report:
+    description: "A comment-ready report of the change in lint issues"
+    value: ${{ steps.report.outputs.report }}
+
 runs:
   using: "composite"
   steps:
@@ -47,15 +52,10 @@ runs:
         echo '${{ steps.default.outputs.counts }}' > then.json
         python ${{ github.action_path }}/build_report.py then.json now.json > report.md
         cat report.md
-        echo 'comment<<EOF' >> $GITHUB_OUTPUT
+        echo 'report<<EOF' >> $GITHUB_OUTPUT
         cat report.md >> $GITHUB_OUTPUT
+        echo '' >> $GITHUB_OUTPUT
+        echo '' >> $GITHUB_OUTPUT
+        echo 'using merge commit ${{ github.sha }} from pull request HEAD ${{ github.event.pull_request.head.sha }}' >> $GITHUB_OUTPUT
         echo 'EOF' >> $GITHUB_OUTPUT
       shell: bash
-    # make the comment
-    - name: Comment
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        message: |
-          ${{ steps.report.outputs.comment }}
-
-          using merge commit ${{ github.sha }} from pull request HEAD ${{ github.event.pull_request.head.sha }}
