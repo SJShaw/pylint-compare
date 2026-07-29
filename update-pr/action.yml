@@ -1,0 +1,17 @@
+name: "Python style issue change summary"
+description: "Reports the number of issues added/resolved by pull requests"
+
+inputs:
+  comment:
+    description: “Comment content”
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    # make the comment
+    - name: Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        message: |
+          ${{ inputs.comment }}
