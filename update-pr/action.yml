@@ -5,13 +5,22 @@ inputs:
   comment:
     description: “Comment content”
     required: true
+  pr_number:
+    description: "Pull request number"
+    required: true
 
 runs:
   using: "composite"
   steps:
+    - name: log things
+      run: |
+        echo "pr: ${{ inputs.pr_number }}"
+        echo "comment: ${{ inputs.comment }}"
+      shell: bash
     # make the comment
     - name: Comment
-      uses: marocchino/sticky-pull-request-comment@v2
+      uses: marocchino/sticky-pull-request-comment@v3
       with:
         message: |
           ${{ inputs.comment }}
+        number: ${{ inputs.pr_number }}
